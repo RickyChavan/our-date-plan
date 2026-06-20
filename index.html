@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our K-drama Date</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+      --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+      --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+      --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.2rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem;
+      --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem;
+      --radius-sm: 0.5rem; --radius-md: 0.85rem; --radius-lg: 1.25rem; --radius-xl: 1.75rem; --radius-full: 9999px;
+      --color-bg: #fff8fb;
+      --color-surface: #fffdfd;
+      --color-surface-2: #fff2f7;
+      --color-surface-offset: #fde6ef;
+      --color-border: #f3c8d8;
+      --color-divider: #f2dbe4;
+      --color-text: #563446;
+      --color-text-muted: #886579;
+      --color-text-faint: #b08ba0;
+      --color-primary: #ff5d9e;
+      --color-primary-hover: #ef438a;
+      --color-primary-highlight: #ffdbe9;
+      --color-secondary: #8f7cff;
+      --color-accent: #ffd36e;
+      --color-success: #5fa879;
+      --shadow-sm: 0 4px 14px rgba(186, 124, 153, 0.12);
+      --shadow-md: 0 16px 40px rgba(186, 124, 153, 0.16);
+      --font-display: 'Gaegu', cursive;
+      --font-body: 'Nunito', sans-serif;
+      --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    *,:before,:after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-text-size-adjust:none;text-size-adjust:none;scroll-behavior:smooth}
+    body{
+      min-height:100dvh; font-family:var(--font-body); font-size:var(--text-base); color:var(--color-text);
+      background:
+        radial-gradient(circle at top left, rgba(255,215,235,.8), transparent 32%),
+        radial-gradient(circle at top right, rgba(255,241,194,.85), transparent 24%),
+        linear-gradient(180deg, #fff8fb 0%, #fffaf3 100%);
+      overflow-x:hidden;
+    }
+    img,svg{display:block;max-width:100%;height:auto}
+    button,input,select,textarea{font:inherit;color:inherit}
+    button{cursor:pointer;border:none;background:none}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .app-shell{min-height:100dvh;display:grid;place-items:center;padding:var(--space-4)}
+    .card{
+      width:min(100%, 780px); background:rgba(255,253,253,.88); backdrop-filter:blur(8px);
+      border:1px solid rgba(255,93,158,.14); border-radius:var(--radius-xl); box-shadow:var(--shadow-md);
+      overflow:hidden; position:relative;
+    }
+    .card:before,.card:after{content:"";position:absolute;border-radius:50%;pointer-events:none;filter:blur(2px)}
+    .card:before{width:140px;height:140px;background:rgba(255,211,110,.18);top:-40px;right:-30px}
+    .card:after{width:120px;height:120px;background:rgba(143,124,255,.12);bottom:-30px;left:-20px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;padding:var(--space-4) var(--space-5);border-bottom:1px solid var(--color-divider);background:rgba(255,255,255,.55)}
+    .brand{display:flex;align-items:center;gap:var(--space-3)}
+    .logo{width:42px;height:42px;color:var(--color-primary)}
+    .brand-title{font-family:var(--font-display);font-size:var(--text-lg);font-weight:700}
+    .brand-sub{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .progress-wrap{display:flex;align-items:center;gap:var(--space-3)}
+    .progress-label{font-size:var(--text-xs);color:var(--color-text-muted)}
+    .progress{width:120px;height:10px;background:var(--color-primary-highlight);border-radius:var(--radius-full);overflow:hidden}
+    .progress-fill{height:100%;width:25%;background:linear-gradient(90deg,var(--color-primary),#ffa1c5);border-radius:inherit;transition:width 300ms ease}
+    .screen{display:none;padding:clamp(var(--space-6),5vw,var(--space-12));min-height:560px;position:relative}
+    .screen.active{display:flex;flex-direction:column}
+    .eyebrow{display:inline-flex;align-items:center;gap:var(--space-2);align-self:flex-start;padding:0.45rem 0.8rem;border-radius:var(--radius-full);background:var(--color-primary-highlight);color:var(--color-primary);font-weight:800;font-size:var(--text-xs);margin-bottom:var(--space-4)}
+    h1,h2{font-family:var(--font-display);line-height:1.05;letter-spacing:0.01em}
+    h1{font-size:var(--text-2xl);max-width:12ch}
+    h2{font-size:var(--text-xl);max-width:16ch}
+    .lead{max-width:58ch;color:var(--color-text-muted);margin-top:var(--space-3)}
+    .hero-visual{margin-top:var(--space-8);display:grid;place-items:center;flex:1}
+    .polaroid{width:min(100%,420px);background:var(--color-surface);border-radius:var(--radius-xl);padding:var(--space-5);box-shadow:var(--shadow-sm);border:1px solid rgba(255,93,158,.12);transform:rotate(-3deg)}
+    .scene{aspect-ratio:1/1;border-radius:var(--radius-lg);background:linear-gradient(180deg,#ffe7f2 0%,#fff9df 100%);position:relative;overflow:hidden}
+    .scene .moon{position:absolute;width:88px;height:88px;border-radius:50%;background:#fff6b5;top:24px;right:28px;box-shadow:0 0 0 12px rgba(255,246,181,.18)}
+    .scene .cloud{position:absolute;background:rgba(255,255,255,.9);border-radius:999px}
+    .cloud.one{width:110px;height:34px;left:32px;top:52px}.cloud.two{width:82px;height:28px;left:74px;top:76px}
+    .couple{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);display:flex;align-items:flex-end;gap:34px}
+    .person{position:relative;width:84px;height:180px}.head{width:52px;height:52px;border-radius:50%;background:#ffdbc9;position:absolute;top:10px;left:16px;z-index:2}
+    .hair{width:58px;height:44px;border-radius:50px 50px 34px 34px;background:#5b3647;position:absolute;top:2px;left:13px;z-index:3}
+    .body-left,.body-right{position:absolute;bottom:0;left:0;right:0;margin:auto;width:74px;height:118px;border-radius:28px 28px 18px 18px}
+    .body-left{background:#ff8db5}.body-right{background:#8f7cff}.arm{position:absolute;width:18px;height:70px;border-radius:999px;background:inherit;top:70px}
+    .left .arm.a{left:-6px;transform:rotate(24deg)} .left .arm.b{right:-4px;transform:rotate(-28deg)}
+    .right .arm.a{left:-4px;transform:rotate(30deg)} .right .arm.b{right:-6px;transform:rotate(-25deg)}
+    .leg{position:absolute;width:18px;height:74px;border-radius:999px;background:#fff;bottom:-40px}
+    .left .leg.a{left:18px}.left .leg.b{right:18px}.right .leg.a{left:18px}.right .leg.b{right:18px}
+    .sparkles{position:absolute;inset:0;pointer-events:none}
+    .sparkles span{position:absolute;width:10px;height:10px;background:var(--color-primary);clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%);opacity:.65;animation:floaty 3s ease-in-out infinite}
+    .sparkles span:nth-child(1){top:24%;left:22%}.sparkles span:nth-child(2){top:18%;right:24%;animation-delay:.8s}.sparkles span:nth-child(3){bottom:28%;left:18%;animation-delay:1.6s}.sparkles span:nth-child(4){bottom:20%;right:22%;animation-delay:2.1s}
+    @keyframes floaty{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.08)}}
+    .caption{font-family:var(--font-display);font-size:var(--text-lg);margin-top:var(--space-4);text-align:center}
+    .cta-row{margin-top:var(--space-8);display:flex;flex-wrap:wrap;gap:var(--space-4);position:relative;min-height:84px;align-items:center}
+    .btn{min-height:48px;padding:0.95rem 1.35rem;border-radius:var(--radius-full);font-weight:800;transition:transform var(--transition-interactive),background var(--transition-interactive),box-shadow var(--transition-interactive)}
+    .btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(143,124,255,.35);outline-offset:3px}
+    .btn-primary{background:var(--color-primary);color:#fff;box-shadow:0 10px 22px rgba(255,93,158,.26)}
+    .btn-primary:hover{background:var(--color-primary-hover);transform:translateY(-2px)}
+    .btn-secondary{background:#fff;color:var(--color-text);border:1px solid rgba(86,52,70,.12)}
+    .btn-secondary:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+    #noBtn{position:relative}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-top:var(--space-8)}
+    .field{display:flex;flex-direction:column;gap:var(--space-2)}
+    .field.full{grid-column:1/-1}
+    label{font-size:var(--text-sm);font-weight:800}
+    input, select, textarea{
+      width:100%; border:1px solid rgba(86,52,70,.12); background:rgba(255,255,255,.9); border-radius:var(--radius-lg);
+      padding:0.95rem 1rem; min-height:52px; color:var(--color-text);
+    }
+    textarea{min-height:120px;resize:vertical;font-family:inherit}
+    .mini-card{margin-top:var(--space-6);padding:var(--space-5);border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(255,93,158,.08), rgba(255,211,110,.16));border:1px solid rgba(255,93,158,.12)}
+    .idea-list{display:grid;gap:var(--space-4);margin-top:var(--space-6)}
+    .idea{
+      display:grid;grid-template-columns:auto 1fr auto;gap:var(--space-4);align-items:start;padding:var(--space-5);
+      background:rgba(255,255,255,.88);border:1px solid rgba(255,93,158,.12);border-radius:var(--radius-lg);transition:transform var(--transition-interactive),border-color var(--transition-interactive),box-shadow var(--transition-interactive);cursor:pointer;
+    }
+    .idea:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+    .idea.selected{border-color:var(--color-primary);box-shadow:0 10px 24px rgba(255,93,158,.14);background:rgba(255,219,233,.35)}
+    .idea-emoji{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;background:var(--color-primary-highlight);font-size:1.65rem}
+    .idea h3{font-size:var(--text-lg);font-family:var(--font-display)}
+    .idea p{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:var(--space-1);max-width:46ch}
+    .idea input{width:22px;height:22px;min-height:auto;margin-top:var(--space-1)}
+    .actions{margin-top:auto;display:flex;justify-content:space-between;gap:var(--space-3);padding-top:var(--space-8);flex-wrap:wrap}
+    .summary{margin-top:var(--space-6);display:grid;gap:var(--space-3)}
+    .summary-card{padding:var(--space-5);border-radius:var(--radius-lg);background:rgba(255,255,255,.9);border:1px solid rgba(86,52,70,.08)}
+    .summary-card strong{display:block;font-size:var(--text-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-faint);margin-bottom:var(--space-2)}
+    .notice{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-4)}
+    .status{margin-top:var(--space-4);font-size:var(--text-sm);font-weight:700;color:var(--color-success);min-height:1.5em}
+    .status.error{color:#c64c76}
+    .heartline{position:absolute;right:22px;bottom:22px;display:flex;gap:8px;opacity:.55}
+    .heartline span{width:14px;height:14px;background:var(--color-primary);transform:rotate(45deg);position:relative;border-radius:2px;animation:beat 1.8s infinite ease-in-out}
+    .heartline span:before,.heartline span:after{content:"";position:absolute;width:14px;height:14px;background:inherit;border-radius:50%}
+    .heartline span:before{left:-7px}.heartline span:after{top:-7px}.heartline span:nth-child(2){animation-delay:.3s}.heartline span:nth-child(3){animation-delay:.6s}
+    @keyframes beat{0%,100%{transform:rotate(45deg) scale(1)}35%{transform:rotate(45deg) scale(1.16)}}
+    .timeline{margin-top:var(--space-6);display:grid;gap:var(--space-3)}
+    .timeline-item{display:grid;grid-template-columns:auto 1fr;gap:var(--space-4);align-items:start;padding:var(--space-4) var(--space-5);background:rgba(255,255,255,.85);border:1px solid rgba(255,93,158,.12);border-radius:var(--radius-lg)}
+    .timeline-time{font-family:var(--font-display);font-size:var(--text-base);color:var(--color-primary);font-weight:700;white-space:nowrap}
+    .timeline-body{font-size:var(--text-sm);color:var(--color-text)}
+    .timeline-body strong{color:var(--color-text)}
+    .gift-card{margin-top:var(--space-6);padding:var(--space-5);border-radius:var(--radius-lg);background:linear-gradient(180deg, rgba(255,211,110,.25), rgba(255,93,158,.12));border:1px solid rgba(255,93,158,.18);display:flex;gap:var(--space-4);align-items:center}
+    .gift-emoji{font-size:2.4rem}
+    .gift-text{font-size:var(--text-sm)}
+    .gift-text strong{display:block;font-family:var(--font-display);font-size:var(--text-lg);margin-bottom:4px}
+    @media (max-width: 720px){
+      .topbar{align-items:flex-start;flex-direction:column;gap:var(--space-3)}
+      .form-grid{grid-template-columns:1fr}
+      .screen{min-height:unset}
+      .idea{grid-template-columns:auto 1fr}
+      .idea input{grid-column:2}
+      .actions{flex-direction:column-reverse}
+      .btn{width:100%}
+      .cta-row{min-height:130px}
+      .timeline-item{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+  <div class="app-shell">
+    <main id="main" class="card">
+      <header class="topbar">
+        <div class="brand">
+          <svg class="logo" viewBox="0 0 64 64" fill="none" aria-label="Date planner logo">
+            <path d="M32 55s-19-11.7-19-28.2C13 18.1 18.9 13 25.2 13c4 0 6.4 1.9 6.8 2.3.4-.4 2.8-2.3 6.8-2.3C45.1 13 51 18.1 51 26.8 51 43.3 32 55 32 55Z" fill="currentColor"/>
+            <path d="M18 29c3.2-4.6 7.7-6.9 13.6-6.9 7.2 0 10.9 3.1 14.4 8.4" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+          <div>
+            <div class="brand-title">Our K-drama Date</div>
+            <div class="brand-sub">Soft sparks, shy smiles, one perfect plan</div>
+          </div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-label" id="progressText">Scene 1 of 4</div>
+          <div class="progress" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+      </header>
+
+      <!-- SCENE 1: RSVP -->
+      <section class="screen active" data-step="1">
+        <div class="eyebrow">Episode 1 · Confession Arc</div>
+        <h1>Will you go on a date with me?</h1>
+        <p class="lead">This is your official main-character moment: soft lights, a tiny bit of chaos, and a very sincere invitation with maximum cute energy.</p>
+        <div class="hero-visual">
+          <div class="polaroid">
+            <div class="scene">
+              <div class="moon"></div>
+              <div class="cloud one"></div>
+              <div class="cloud two"></div>
+              <div class="couple">
+                <div class="person left">
+                  <div class="hair"></div><div class="head"></div><div class="body-left"></div><div class="arm a"></div><div class="arm b"></div><div class="leg a"></div><div class="leg b"></div>
+                </div>
+                <div class="person right">
+                  <div class="hair"></div><div class="head"></div><div class="body-right"></div><div class="arm a"></div><div class="arm b"></div><div class="leg a"></div><div class="leg b"></div>
+                </div>
+              </div>
+              <div class="sparkles"><span></span><span></span><span></span><span></span></div>
+            </div>
+            <div class="caption">Manifesting a happy little "yes" ✨</div>
+          </div>
+        </div>
+        <div class="cta-row" id="ctaRow">
+          <button class="btn btn-primary" id="yesBtn" type="button">Yes, obviously 💗</button>
+          <button class="btn btn-secondary" id="noBtn" type="button" aria-label="No">No 🙈</button>
+        </div>
+        <div class="heartline" aria-hidden="true"><span></span><span></span><span></span></div>
+      </section>
+
+      <!-- SCENE 2: DATE & TIME -->
+      <section class="screen" data-step="2">
+        <div class="eyebrow">Episode 2 · Calendar Chemistry</div>
+        <h2>Pick the date and time</h2>
+        <p class="lead">Choose the moment when the soundtrack starts playing in the background and the world suddenly feels a little more cinematic.</p>
+        <div class="form-grid">
+          <div class="field">
+            <label for="dateInput">Date</label>
+            <input id="dateInput" name="date" type="date" required>
+          </div>
+          <div class="field">
+            <label for="timeInput">Time</label>
+            <input id="timeInput" name="time" type="time" required>
+          </div>
+          <div class="field full">
+            <label for="timezoneInput">Timezone / place note</label>
+            <input id="timezoneInput" name="timezone" type="text" placeholder="Example: Singapore time, 8 PM / Italy 2 PM">
+          </div>
+        </div>
+        <div class="mini-card">
+          <strong style="display:block;margin-bottom:8px;">Cute idea</strong>
+          Add her timezone or city note so the plan feels thoughtful and effortless, especially across countries.
+        </div>
+        <div class="actions">
+          <button class="btn btn-secondary" type="button" data-back>Back</button>
+          <button class="btn btn-primary" type="button" data-next>Continue to date ideas</button>
+        </div>
+      </section>
+
+      <!-- SCENE 3: PICK ACTIVITY PAIRING -->
+      <section class="screen" data-step="3">
+        <div class="eyebrow">Episode 3 · Choosing the vibe</div>
+        <h2>Pick one activity pairing</h2>
+        <p class="lead">Each pairing is a cozy main activity plus a playful one to keep the energy fun. Pick whichever feels most "us" today.</p>
+        <div class="idea-list" id="ideaList">
+          <label class="idea">
+            <div class="idea-emoji">🎲</div>
+            <div>
+              <h3>Ludo + portrait drawing</h3>
+              <p>Cozy Ludo match with playful trash-talk, then sketch each other's portraits — bonus points for ridiculous results.</p>
+            </div>
+            <input type="radio" name="idea" value="Ludo + portrait drawing" />
+          </label>
+          <label class="idea">
+            <div class="idea-emoji">🃏</div>
+            <div>
+              <h3>Rummy + 20 questions</h3>
+              <p>A relaxed Rummy round, then the classic 20 questions game — soft, curious, and a great excuse to learn each other.</p>
+            </div>
+            <input type="radio" name="idea" value="Rummy + 20 questions" />
+          </label>
+          <label class="idea">
+            <div class="idea-emoji">🗺️</div>
+            <div>
+              <h3>This or that + Google Maps hometown tour</h3>
+              <p>Rapid-fire "this or that" rounds, then take each other on a Google Maps walk through your hometowns and favorite spots.</p>
+            </div>
+            <input type="radio" name="idea" value="This or that + Google Maps hometown tour" />
+          </label>
+          <label class="idea">
+            <div class="idea-emoji">😂</div>
+            <div>
+              <h3>Meme challenge + show and tell</h3>
+              <p>Swap your funniest saved memes, then a mini show-and-tell of something meaningful from your room or phone.</p>
+            </div>
+            <input type="radio" name="idea" value="Meme challenge + show and tell" />
+          </label>
+        </div>
+
+        <div class="mini-card" style="margin-top:var(--space-6)">
+          <strong style="display:block;margin-bottom:8px;">How the date will flow ✨</strong>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-time">5–10 min</div>
+              <div class="timeline-body"><strong>Warm open.</strong> Easy chat and jokes so we both settle in.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Main</div>
+              <div class="timeline-body"><strong>Main activity.</strong> Ludo or Rummy — you already know the rules, so zero teaching time.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">Second</div>
+              <div class="timeline-body"><strong>Second activity.</strong> Portrait drawing or a quick "this or that" round to keep the energy fun.</div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-time">15–20 min</div>
+              <div class="timeline-body"><strong>Wind down.</strong> Normal conversation about travel, hobbies, food, or future plans.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gift-card">
+          <div class="gift-emoji">🍫💐</div>
+          <div class="gift-text">
+            <strong>A small surprise on the way</strong>
+            Chocolates and flowers will arrive at your place — so you can feel comfy, soft, and a little spoiled before we even start.
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-secondary" type="button" data-back>Back</button>
+          <button class="btn btn-primary" type="button" data-next>Continue to final step</button>
+        </div>
+      </section>
+
+      <!-- SCENE 4: CONFIRM & SEND -->
+      <section class="screen" data-step="4">
+        <div class="eyebrow">Episode 4 · The official plan</div>
+        <h2>Make it real</h2>
+        <p class="lead">Add your names and her email — tapping "send" opens your email with a playful confirmation pre-filled, ready to send her way.</p>
+        <form id="dateForm">
+          <div class="summary">
+            <div class="summary-card"><strong>Selected date</strong><span id="summaryDate">Not chosen yet</span></div>
+            <div class="summary-card"><strong>Selected pairing</strong><span id="summaryIdea">Not chosen yet</span></div>
+          </div>
+          <div class="form-grid" style="margin-top: 1.5rem;">
+            <div class="field">
+              <label for="yourName">Your name</label>
+              <input id="yourName" name="your_name" type="text" placeholder="Your name" value="Hrishi" required>
+            </div>
+            <div class="field">
+              <label for="herName">Her name</label>
+              <input id="herName" name="her_name" type="text" placeholder="Her name" required>
+            </div>
+            <div class="field">
+              <label for="yourEmail">Your email</label>
+              <input id="yourEmail" name="your_email" type="email" placeholder="you@example.com" value="hrishichavan193@gmail.com" required>
+            </div>
+            <div class="field">
+              <label for="herEmail">Her email</label>
+              <input id="herEmail" name="her_email" type="email" placeholder="her@example.com" required>
+            </div>
+            <div class="field full">
+              <label for="note">Sweet note (optional)</label>
+              <textarea id="note" name="message" rows="4" placeholder="Add a short message she'll smile at — or leave it blank and let the template do the talking."></textarea>
+            </div>
+          </div>
+          <p class="notice">Tapping "send" opens your email app with a playful confirmation pre-filled (including a little mention of the chocolates and flowers, so she feels comfy). Just hit send in your email app.</p>
+          <div class="status" id="statusMsg" aria-live="polite"></div>
+          <div class="actions">
+            <button class="btn btn-secondary" type="button" data-back>Back</button>
+            <button class="btn btn-primary" type="submit">Send our date plan 💌</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const screens = [...document.querySelectorAll('.screen')];
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const ctaRow = document.getElementById('ctaRow');
+    const dateInput = document.getElementById('dateInput');
+    const timeInput = document.getElementById('timeInput');
+    const timezoneInput = document.getElementById('timezoneInput');
+    const ideaList = document.getElementById('ideaList');
+    const summaryDate = document.getElementById('summaryDate');
+    const summaryIdea = document.getElementById('summaryIdea');
+    const dateForm = document.getElementById('dateForm');
+    const statusMsg = document.getElementById('statusMsg');
+
+    let currentStep = 1;
+    let noEscapeCount = 0;
+    let plannedIdea = '';
+
+    function updateStep(step) {
+      currentStep = step;
+      screens.forEach(screen => screen.classList.toggle('active', Number(screen.dataset.step) === step));
+      progressFill.style.width = `${step * 25}%`;
+      progressText.textContent = `Scene ${step} of 4`;
+      if (step === 4) fillSummary();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function formatDateTime() {
+      if (!dateInput.value || !timeInput.value) return 'Not chosen yet';
+      const date = new Date(`${dateInput.value}T${timeInput.value}`);
+      const formatted = date.toLocaleString([], { dateStyle: 'full', timeStyle: 'short' });
+      return timezoneInput.value ? `${formatted} — ${timezoneInput.value}` : formatted;
+    }
+
+    function fillSummary() {
+      summaryDate.textContent = formatDateTime();
+      summaryIdea.textContent = plannedIdea || 'Not chosen yet';
+    }
+
+    function validateStep(step) {
+      if (step === 2 && (!dateInput.value || !timeInput.value)) {
+        alert('Pick both a date and time first ✨');
+        return false;
+      }
+      if (step === 3 && !plannedIdea) {
+        alert('Choose one activity pairing first 💗');
+        return false;
+      }
+      return true;
+    }
+
+    yesBtn.addEventListener('click', () => updateStep(2));
+
+    function moveNoButton() {
+      noEscapeCount += 1;
+      const rowRect = ctaRow.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+      const maxX = Math.max(0, rowRect.width - btnRect.width);
+      const maxY = Math.max(0, 90 - btnRect.height / 2);
+      const nextX = Math.random() * maxX;
+      const nextY = Math.random() * maxY;
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = `${nextX}px`;
+      noBtn.style.top = `${nextY}px`;
+      if (noEscapeCount > 6) noBtn.textContent = 'Okay okay 😳';
+      if (noEscapeCount > 9) noBtn.style.opacity = '.55';
+    }
+
+    ['mouseenter','touchstart','focus'].forEach(evt => {
+      noBtn.addEventListener(evt, (e) => {
+        if (noEscapeCount < 11) {
+          e.preventDefault();
+          moveNoButton();
+        }
+      }, { passive: false });
+    });
+    noBtn.addEventListener('click', moveNoButton);
+
+    document.querySelectorAll('[data-next]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!validateStep(currentStep)) return;
+        updateStep(Math.min(4, currentStep + 1));
+      });
+    });
+    document.querySelectorAll('[data-back]').forEach(btn => {
+      btn.addEventListener('click', () => updateStep(Math.max(1, currentStep - 1)));
+    });
+
+    ideaList.addEventListener('change', (e) => {
+      if (e.target.name === 'idea') {
+        plannedIdea = e.target.value;
+        document.querySelectorAll('.idea').forEach(card => card.classList.remove('selected'));
+        e.target.closest('.idea').classList.add('selected');
+      }
+    });
+
+    function buildEmailBody({ yourName, herName, dateStr, idea, note }) {
+      const lines = [
+        `Hi ${herName || 'you'} 💌`,
+        '',
+        `Okay — making it official. We're on for a date and here's the little plan:`,
+        '',
+        `📅  When: ${dateStr}`,
+        `🎲  What we'll do: ${idea}`,
+        '',
+        `How the date will flow:`,
+        `• 5–10 min warm open — easy chat and jokes so we both settle in.`,
+        `• Main activity — Ludo or Rummy (you already know the rules, so zero teaching time).`,
+        `• Second activity — portrait drawing or a quick "this or that" to keep the energy fun.`,
+        `• 15–20 min wind down — normal conversation about travel, hobbies, food, or future plans.`,
+        '',
+        `One more thing — chocolates and flowers will be on their way to you 🍫💐 just so you feel comfy, soft, and a little spoiled before we even start. No pressure, just sweetness.`,
+        '',
+      ];
+      if (note && note.trim()) {
+        lines.push(`A little note from me:`, note.trim(), '');
+      }
+      lines.push(
+        `Can't wait. See you soon 💗`,
+        `— ${yourName || 'me'}`
+      );
+      return lines.join('\n');
+    }
+
+    dateForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      fillSummary();
+      statusMsg.classList.remove('error');
+
+      const yourName = document.getElementById('yourName').value.trim();
+      const herName = document.getElementById('herName').value.trim();
+      const yourEmail = document.getElementById('yourEmail').value.trim();
+      const herEmail = document.getElementById('herEmail').value.trim();
+      const note = document.getElementById('note').value;
+      const dateStr = summaryDate.textContent;
+      const idea = plannedIdea;
+
+      if (!herEmail || !herName) {
+        statusMsg.classList.add('error');
+        statusMsg.textContent = 'Add her name and email first 💗';
+        return;
+      }
+
+      const subject = `Our K-drama date — it's official 💗`;
+      const body = buildEmailBody({ yourName, herName, dateStr, idea, note });
+
+      const mailto = `mailto:${encodeURIComponent(herEmail)}` +
+        `?cc=${encodeURIComponent(yourEmail)}` +
+        `&subject=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(body)}`;
+
+      // Open mail client
+      window.location.href = mailto;
+
+      statusMsg.textContent = 'Opening your email app… just hit send when it pops up 💌';
+    });
+
+    const today = new Date();
+    dateInput.min = today.toISOString().split('T')[0];
+  </script>
+</body>
+</html>
